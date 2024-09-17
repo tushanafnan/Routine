@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Routine</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a202c;
+            /* Dark background */
+            color: #e2e8f0;
+            /* Light text color */
+        }
+    </style>
+</head>
+
+<body class="p-4">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-4">Weekly Routine</h1>
+        <div class="mb-4">
+            <label for="week-selector" class="block text-lg font-medium mb-2">Select a Day:</label>
+            <select id="week-selector" class="p-2 bg-gray-700 border border-gray-600 text-gray-200 rounded">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+            </select>
+        </div>
+        <table class="w-full table-auto bg-gray-800 rounded-lg overflow-hidden">
+            <thead>
+                <tr>
+                    <th class="p-2 border-b border-gray-600">Time</th>
+                    <th class="p-2 border-b border-gray-600">Activity</th>
+                </tr>
+            </thead>
+            <tbody id="routine-tasks">
+                <!-- Routine tasks will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const routineData = {
+                monday: [{
+                        time: '06:00 AM - 06:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '06:30 AM - 08:30 AM',
+                        activity: 'FAANG study (beginning from zero)'
+                    },
+                    {
+                        time: '08:30 AM - 09:00 AM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '09:00 AM - 03:00 PM',
+                        activity: 'University classes'
+                    },
+                    {
+                        time: '03:00 PM - 03:30 PM',
+                        activity: 'Lunch'
+                    },
+                    {
+                        time: '03:30 PM - 04:00 PM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '04:00 PM - 05:45 PM',
+                        activity: 'Gym session'
+                    },
+                    {
+                        time: '05:45 PM - 06:30 PM',
+                        activity: 'Relax / Talk to Baaki at home'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Travel for tuition'
+                    },
+                    {
+                        time: '07:00 PM - 09:00 PM',
+                        activity: 'Tuition'
+                    },
+                    {
+                        time: '09:00 PM - 09:30 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '09:30 PM - 11:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ],
+                tuesday: [{
+                        time: '06:00 AM - 06:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '06:30 AM - 08:00 AM',
+                        activity: 'Travel to kindergarten'
+                    },
+                    {
+                        time: '08:30 AM - 10:00 AM',
+                        activity: 'Kindergarten teaching'
+                    },
+                    {
+                        time: '10:00 AM - 11:30 AM',
+                        activity: 'Return home'
+                    },
+                    {
+                        time: '11:30 AM - 12:30 PM',
+                        activity: 'Rest / Talk to Baaki and lunch'
+                    },
+                    {
+                        time: '12:30 PM - 03:00 PM',
+                        activity: 'Project work or personal tasks'
+                    },
+                    {
+                        time: '03:00 PM - 05:00 PM',
+                        activity: 'Social activities or errands'
+                    },
+                    {
+                        time: '05:00 PM - 06:30 PM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '07:00 PM - 09:00 PM',
+                        activity: 'Project work or leisure activities'
+                    },
+                    {
+                        time: '09:00 PM - 11:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ],
+                wednesday: [{
+                        time: '06:00 AM - 06:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '06:30 AM - 08:30 AM',
+                        activity: 'FAANG study (beginning from zero)'
+                    },
+                    {
+                        time: '08:30 AM - 09:00 AM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '09:00 AM - 12:00 PM',
+                        activity: 'University classes'
+                    },
+                    {
+                        time: '12:00 PM - 01:00 PM',
+                        activity: 'Lunch'
+                    },
+                    {
+                        time: '01:00 PM - 03:00 PM',
+                        activity: 'Rest / Talk to Baaki or side tasks'
+                    },
+                    {
+                        time: '04:00 PM - 05:45 PM',
+                        activity: 'Gym session'
+                    },
+                    {
+                        time: '05:45 PM - 06:30 PM',
+                        activity: 'Relax / Talk to Baaki at home'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Travel for tuition'
+                    },
+                    {
+                        time: '07:00 PM - 09:00 PM',
+                        activity: 'Tuition'
+                    },
+                    {
+                        time: '09:00 PM - 09:30 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '09:30 PM - 11:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ],
+                thursday: [{
+                        time: '06:00 AM - 06:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '06:30 AM - 08:30 AM',
+                        activity: 'FAANG study (beginning from zero)'
+                    },
+                    {
+                        time: '08:30 AM - 09:00 AM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '09:00 AM - 12:00 PM',
+                        activity: 'Personal projects or coding challenges'
+                    },
+                    {
+                        time: '12:00 PM - 01:00 PM',
+                        activity: 'Lunch'
+                    },
+                    {
+                        time: '01:00 PM - 03:00 PM',
+                        activity: 'Rest / Talk to Baaki or leisure activities'
+                    },
+                    {
+                        time: '04:00 PM - 05:45 PM',
+                        activity: 'Gym session'
+                    },
+                    {
+                        time: '05:45 PM - 06:30 PM',
+                        activity: 'Relax / Talk to Baaki at home'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '07:00 PM - 09:00 PM',
+                        activity: 'Project work or leisure activities'
+                    },
+                    {
+                        time: '09:00 PM - 11:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ],
+                friday: [{
+                        time: '06:00 AM - 06:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '06:30 AM - 08:30 AM',
+                        activity: 'FAANG study (beginning from zero)'
+                    },
+                    {
+                        time: '08:30 AM - 09:00 AM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '09:00 AM - 01:00 PM',
+                        activity: 'University classes'
+                    },
+                    {
+                        time: '01:20 PM - 03:00 PM',
+                        activity: 'University class'
+                    },
+                    {
+                        time: '03:00 PM - 03:30 PM',
+                        activity: 'Lunch'
+                    },
+                    {
+                        time: '03:30 PM - 04:00 PM',
+                        activity: 'Rest / Talk to Baaki'
+                    },
+                    {
+                        time: '04:00 PM - 05:45 PM',
+                        activity: 'Gym session'
+                    },
+                    {
+                        time: '05:45 PM - 06:30 PM',
+                        activity: 'Relax / Talk to Baaki at home'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Travel for tuition'
+                    },
+                    {
+                        time: '07:00 PM - 09:00 PM',
+                        activity: 'Tuition'
+                    },
+                    {
+                        time: '09:00 PM - 09:30 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '09:30 PM - 11:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ],
+                saturday: [{
+                        time: '08:00 AM - 08:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '08:30 AM - 12:00 PM',
+                        activity: 'Free time or personal projects'
+                    },
+                    {
+                        time: '12:00 PM - 01:00 PM',
+                        activity: 'Lunch'
+                    },
+                    {
+                        time: '01:00 PM - 03:00 PM',
+                        activity: 'Social activities or Relax / Talk to Baakiation'
+                    },
+                    {
+                        time: '03:00 PM - 05:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '05:00 PM - 06:30 PM',
+                        activity: 'Relax / Talk to Baaki or errands'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '07:00 PM - 10:00 PM',
+                        activity: 'Project work or leisure activities'
+                    },
+                    {
+                        time: '10:00 PM',
+                        activity: 'Relax / Talk to Baaki or watch TV'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ],
+                sunday: [{
+                        time: '08:00 AM - 08:30 AM',
+                        activity: 'Wake up, freshen up, breakfast'
+                    },
+                    {
+                        time: '08:30 AM - 12:00 PM',
+                        activity: 'Free time or personal projects'
+                    },
+                    {
+                        time: '12:00 PM - 01:00 PM',
+                        activity: 'Lunch'
+                    },
+                    {
+                        time: '01:00 PM - 03:00 PM',
+                        activity: 'Social activities or Relax / Talk to Baakiation'
+                    },
+                    {
+                        time: '03:00 PM - 05:00 PM',
+                        activity: 'Talk to My Baaki (Also Rest)'
+                    },
+                    {
+                        time: '05:00 PM - 06:30 PM',
+                        activity: 'Relax / Talk to Baaki or errands'
+                    },
+                    {
+                        time: '06:30 PM - 07:00 PM',
+                        activity: 'Dinner'
+                    },
+                    {
+                        time: '07:00 PM - 10:00 PM',
+                        activity: 'Project work or leisure activities'
+                    },
+                    {
+                        time: '10:00 PM',
+                        activity: 'Relax / Talk to Baaki or watch TV'
+                    },
+                    {
+                        time: '11:00 PM',
+                        activity: 'Sleep'
+                    }
+                ]
+            };
+
+            const selector = document.getElementById('week-selector');
+            const tasksTable = document.getElementById('routine-tasks');
+
+            function updateRoutine(day) {
+                tasksTable.innerHTML = '';
+                if (routineData[day]) {
+                    routineData[day].forEach(task => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td class="p-2 border-b border-gray-600">${task.time}</td>
+                            <td class="p-2 border-b border-gray-600">${task.activity}</td>
+                        `;
+                        tasksTable.appendChild(row);
+                    });
+                }
+            }
+
+            selector.addEventListener('change', () => {
+                const selectedDay = selector.value;
+                updateRoutine(selectedDay);
+            });
+
+            // Set initial routine
+            updateRoutine('monday');
+        });
+    </script>
+</body>
+
+</html>
